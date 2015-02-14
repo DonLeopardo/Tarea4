@@ -1,0 +1,45 @@
+---
+title: "Tarea 4"
+output: html_document
+---
+
+######Alejandro Lois
+######David De Ávila
+######Raymundo Olivares
+
+```{r Datos,echo=F}
+directorio<-"C:/Users/allois/Desktop"
+setwd(directorio)
+TC.Banxico<-read.table("./tipoCambioBanxico.txt",sep="|",header=T,stringsAsFactors=F)
+TC.Banxico$Fecha.DOF<-as.Date(TC.Banxico$Fecha.DOF,format="%d/%m/%Y")
+TC.Banxico$año<-unclass(as.POSIXlt(TC.Banxico$Fecha.DOF))$year+1900
+TC.Banxico.existentes<-subset(TC.Banxico,TC!="N/E")
+TC.Banxico.existentes$TC<-as.numeric(TC.Banxico.existentes$TC)
+```
+
+####Pregunta 1 y 2
+
+```{r,echo=F}
+par(mfrow=c(3,3))
+for(i in 2006:max(TC.Banxico.existentes$año)){hist(TC.Banxico.existentes[which(TC.Banxico.existentes[,3]==i),2],col="blue",xlim=c(9.9,15.4),ylim=c(0,120),breaks=seq(9.9,15.4,length.out=30),border="white",ylab="Frecuencia",xlab="Tipo de cambio del dólar de E.U.A.",main=i)
+abline(v=mean(TC.Banxico.existentes[which(TC.Banxico.existentes[,3]==i),2]),col="red") 
+abline(v=median(TC.Banxico.existentes[which(TC.Banxico.existentes[,3]==i),2]),col="black")}
+```
+
+####Pregunta 4
+
+```{r,echo=F}
+par(mfrow=c(1,1))
+TC.Banxico.existentes$año<-as.factor(TC.Banxico.existentes$año)
+boxplot(TC.Banxico.existentes$TC~TC.Banxico.existentes$año,range=0,varwith=T,ylab="Tipo de cambio",xlab="Año")
+```
+
+####Pregunta 6
+
+```{r,echo=F}
+curve(dnorm(x),from=-4,to=4,col="red",lwd=2,main=expression(paste("Gráfica de la función",
+frac(1,sqrt(2*pi)),"·",plain(e)^{frac(-x^2,2)})),ylab= "f(x)")
+abline(v=0, col = "black",lwd = 2)
+points(0,y = dnorm(0),col="blue",pch = 19,lwd = 10)
+text(1, y = dnorm(0),"Valor máximo")
+```
